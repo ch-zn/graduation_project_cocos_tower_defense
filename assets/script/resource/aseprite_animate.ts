@@ -1,8 +1,8 @@
 import { _decorator, animation,Animation, AnimationClip, AnimationComponent, AnimationState, CCString, Component, ImageAsset, JsonAsset, Node, Rect, Sprite, SpriteFrame ,Texture2D,Vec2} from 'cc';
 const { ccclass, property,requireComponent } = _decorator;
 
-@ccclass("AnimateData")
-class AnimateData{
+@ccclass("AsepriteAnimateData")
+export class AsepriteAnimateData{
     @property(CCString)
     name:string;
     @property(Texture2D)
@@ -11,16 +11,16 @@ class AnimateData{
     json:JsonAsset;
 }
 
-@ccclass('animate')
+@ccclass('aseprite_animate')
 @requireComponent(Animation)
-export class animate extends Component {
+export class aseprite_animate extends Component {
     @property(CCString)
     public defaultAnimate:string="default";
-    @property({type:[AnimateData]})
-    public animate:AnimateData[]=[];
+    @property({type:[AsepriteAnimateData]})
+    public animate:AsepriteAnimateData[]=[];
     static loadedAnim:Map<string,Map<string,AnimationClip>>=new Map();
 
-    private static loadAnim(json:object,image:Texture2D,name:string,loaded:Map<string,AnimationClip>):AnimationClip{
+    private static loadAnim(json:aseprite_json,image:Texture2D,name:string,loaded:Map<string,AnimationClip>):AnimationClip{
         if(!loaded.has(name)){
             const clip=new AnimationClip();
             clip.name=name;
@@ -50,11 +50,11 @@ export class animate extends Component {
 
     onLoad(): void {
         let defaultValid=false||this.defaultAnimate==="";
-        if(!animate.loadedAnim.has(this.node.name))
-            animate.loadedAnim.set(this.node.name,new Map());
-        let loaded=animate.loadedAnim.get(this.node.name);
+        if(!aseprite_animate.loadedAnim.has(this.node.name))
+            aseprite_animate.loadedAnim.set(this.node.name,new Map());
+        let loaded=aseprite_animate.loadedAnim.get(this.node.name);
         for(let data of this.animate){
-            const clip=animate.loadAnim(data.json.json,data.image,data.name,loaded);
+            const clip=aseprite_animate.loadAnim(data.json.json as aseprite_json,data.image,data.name,loaded);
             // const json:object=data.json.json;
             // const clip=new AnimationClip();
             // clip.name=data.name;

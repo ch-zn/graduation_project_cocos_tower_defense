@@ -2,6 +2,7 @@ import { _decorator, Component, Node,Animation, CCString, Sprite, UIOpacity, inp
 const { ccclass, property } = _decorator;
 import { global } from './global';
 import { tile_manager } from './tile_manager';
+import { aseprite_bundle } from '../resource/aseprite_bundle';
 
 export enum TileState{
     Normal,     //正常状态
@@ -32,7 +33,7 @@ export class tile extends Component {
     }
 
     start() {
-        this.node.getComponent(Animation).play(this.type);
+        this.node.getChildByName("image").getComponent(aseprite_bundle).setFrame(this.type);
     }
 
     update(deltaTime: number) {

@@ -52,8 +52,8 @@ export class tile_manager extends Component {
             w=mayw;
             h=total_size.height*9/13;
         }
-        this.node.position=new Vec3(-w/2,-h/2,0);
-        this.node.scale=new Vec3(scale,scale,0);
+        this.node.parent.position=new Vec3(-w/2,-h/2,0);
+        this.node.parent.scale=new Vec3(scale,scale,0);
     }
 
 
