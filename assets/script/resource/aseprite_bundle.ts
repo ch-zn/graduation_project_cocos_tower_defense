@@ -41,10 +41,10 @@ export class aseprite_bundle extends Component {
 
     public setFrame(name:string):void{
         let data=this.frames[name];
-        console.log(name,data.type)
+        // console.log(name,data.type)
         if(data.type==="frame"){
             this.node.getComponent(Sprite).spriteFrame=data.value;
-            console.log(name,data.type);
+            // console.log(name,data.type);
         }
         else this.node.getComponent(AnimationComponent).play(name);
     }

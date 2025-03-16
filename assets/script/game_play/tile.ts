@@ -21,15 +21,15 @@ export class tile extends Component {
     pos:Vec2;
     onLoad(): void {
         this.node.getChildByName("mark").getComponent(UIOpacity).opacity=0;
-        this.node.on(Input.EventType.TOUCH_START,this.onTouchStart,this);
+        this.node.on(Node.EventType.TOUCH_START,this.onTouchStart,this);
         this.node.on(Input.EventType.TOUCH_END,this.onTouchEnd,this);
         this.node.on(Input.EventType.TOUCH_CANCEL,this.onTouchCancel,this);
     }
 
     onDestroy(): void {
-        this.node.off(Input.EventType.TOUCH_START,this.onTouchStart,this);
-        this.node.off(Input.EventType.TOUCH_END,this.onTouchEnd,this);
-        this.node.off(Input.EventType.TOUCH_CANCEL,this.onTouchCancel,this);
+        // this.node.off(Input.EventType.TOUCH_START,this.onTouchStart,this);
+        // this.node.off(Input.EventType.TOUCH_END,this.onTouchEnd,this);
+        // this.node.off(Input.EventType.TOUCH_CANCEL,this.onTouchCancel,this);
     }
 
     start() {
@@ -78,17 +78,19 @@ export class tile extends Component {
     }
 
     onTouchStart(e:EventTouch){
-        e.propagationStopped=true;
+        // e.propagationStopped=true;
+        console.warn("w");
         console.log(`T T ${this.pos}`);
     }
 
     onTouchEnd(e:EventTouch){
-        e.propagationStopped=true;
-        console.log(`T E ${this.pos}`);
+        // e.propagationStopped=true;
+        
+        console.log(`T E ${this.pos} ${this.convertCoordFromUILocation(e.getUILocation())}`);
     }
 
     onTouchCancel(e:EventTouch){
-        e.propagationStopped=true;
+        // e.propagationStopped=true;
         console.log(`T C ${this.pos}`);
     }
 }

@@ -20,7 +20,7 @@ export class global{
 
     resourcelist:ResourceInfo={};
     resource:any={unload:true};
-    config={tile_size:{w:32,h:32},defaultMapSize:{w:8,h:8}};
+    config={tile_size:{w:1,h:1},defaultMapSize:{w:8,h:8}};
     nextLevel:level_info;
     nextMap:TileMap={size:{w:4,h:4},ground:[["grass","grass","grass","grass",],["grass","dirt","grass","grass",],["grass","grass","grass","grass",],["grass","grass","grass","grass",]],item:[[null,null,null,null],[null,"null",null,null],[null,null,null,null],[null,null,null,null]]};
     

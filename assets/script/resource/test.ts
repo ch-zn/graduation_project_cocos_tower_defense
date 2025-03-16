@@ -20,14 +20,17 @@ export class test extends Component {
     }
 
     tryChangeScence(){
-        if(this.cnt==3)director.loadScene("game_play",function(){console.log("callback")});
+        // if(this.cnt==3)
+        director.addPersistRootNode(this.node);
+            director.loadScene("game_play",function(){console.log("callback")});
     }
 
     update(deltaTime: number) {
         console.log("unpade");
         if(this.cnt==0)return;
-        console.log(global.instance.resource);
-        console.log(`tower: ${global.instance.resource.tower.attack.name}`);
+        this.tryChangeScence();
+        // console.log(global.instance.resource);
+        // console.log(`tower: ${global.instance.resource.tower.attack.name}`);
     }
 }
 
