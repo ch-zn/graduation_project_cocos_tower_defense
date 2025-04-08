@@ -2,12 +2,12 @@
   "ver": "1.1.50",
   "importer": "prefab",
   "imported": true,
-  "uuid": "5e36dec6-840a-4120-8cb6-e122d33aeb17",
+  "uuid": "192b12f9-cc89-4a0e-9ec6-562b64258961",
   "files": [
     ".json"
   ],
   "subMetas": {},
   "userData": {
-    "syncNodeName": "NormalEnemy"
+    "syncNodeName": "FastSlime"
   }
 }

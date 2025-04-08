@@ -1,11 +1,11 @@
 import { _decorator, Component, find, instantiate, Node, Prefab, warn } from 'cc';
-import { game_play } from './game_play';
+import { game_play, pause_mixin } from './game_play';
 import { factory } from './factory';
 import { enemy_component } from './enemy/enemy_component';
 const { ccclass, property } = _decorator;
 
-@ccclass("enemy_generator_component")
-export class enemy_generator_component extends Component{
+
+class _enemy_generator_component extends Component{
     static get instance(){
         return find("Canvas/PlayGround/EnemyManager").getComponent(enemy_generator_component);
     }
@@ -25,6 +25,10 @@ export class enemy_generator_component extends Component{
         this.generator.update(deltaTime);
     }
     get finish(){return this.generator.all_enemy_generated;}
+}
+
+@ccclass("enemy_generator_component")
+export class enemy_generator_component extends pause_mixin(_enemy_generator_component){
 }
 
 export abstract class enemy_generator{
@@ -55,7 +59,7 @@ export type enemy_generator_data={
 };
 export type fixed_enemy_generator_data={
     wave:number;
-    enemy_waves:{enemys:(enemy_generator_data|"last"|"skip")[],delay:number}[];
+    enemy_waves:{enemys:(enemy_generator_data|"last"|"skip")[],delay:number,wave_delay:number}[];
 };
 class enemy_generator_fixed extends enemy_generator{
     data:fixed_enemy_generator_data;
@@ -66,17 +70,18 @@ class enemy_generator_fixed extends enemy_generator{
     constructor(data:fixed_enemy_generator_data){
         super();
         this.data=data;
-        this.delay=data.enemy_waves[0].delay;
+        this.delay=data.enemy_waves[0].wave_delay;
     }
     get all_enemy_generated(): boolean {
         return this.current_wave>=this.data.wave;
     }
     start(): void {}
     update(deltaTime: number): void {
+        
         if(this.all_enemy_generated)return;
         this.delay-=deltaTime;
         
-        console.log(`delay ${this.delay}`);
+        // console.log(`delay ${this.delay}`);
         if(this.delay<=0){
             this.delay+=this.generate();
         }
@@ -98,12 +103,13 @@ class enemy_generator_fixed extends enemy_generator{
         if(this.current_enemy==this.data.enemy_waves[this.current_wave].enemys.length){
             this.current_enemy=0;
             this.current_wave++;
+            return this.data.enemy_waves[this.current_wave].wave_delay;
         }
         return enemy_data.delay??this.data.enemy_waves[this.current_wave].delay;
     }
     generateEnemy(enemy_data:enemy_generator_data){
         let e=enemy_generator.factory.enemy(enemy_data.type);
-        console.log(e);
+        // console.log(`${enemy_data.type} is ${e}`);
         let enemy=instantiate(enemy_generator.factory.enemy(enemy_data.type));
         let component=enemy.getComponent(enemy_component);
         component.path_id=enemy_data.path??0;

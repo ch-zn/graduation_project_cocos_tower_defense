@@ -1,8 +1,11 @@
-import { _decorator, Canvas, Component, find, Input, instantiate, Node, Prefab, UITransform, Vec2, Vec3, view } from 'cc';
+import { _decorator, Canvas, Component, EventTouch, find, Input, instantiate, Node, Prefab, UITransform, Vec2, Vec3, view } from 'cc';
 import { tile, TileState } from './tile';
 import { global } from './global';
 import { game_play } from './game_play';
 import { level_data } from './level_info';
+import { card_manager } from './card_manager';
+import { tower_component } from './placement/tower_component';
+import { placement_manager } from './placement_manager';
 const { ccclass, property } = _decorator;
 
 export class TileMap{
@@ -11,6 +14,9 @@ export class TileMap{
     item:Array<Array<string | null>>;
 }
 
+function reposition(pos){this.node.position=pos;}
+function rescale(scale){this.node.scale=scale;}
+
 @ccclass('tile_manager')
 export class tile_manager extends Component {
     map:Map<Vec2,Node>=new Map();
@@ -18,14 +24,18 @@ export class tile_manager extends Component {
     prefab:Prefab;
     onLoad(): void {
         this.node.on(Input.EventType.TOUCH_START,this.onTouch,this);
-        // this.node.on(Input.EventType.TOUCH_END,function(e){console.log("M E")});
+        this.node.on(Input.EventType.TOUCH_END,this.onTouchEnd,this);
+        this.node.on(Input.EventType.TOUCH_CANCEL,this.onTouchEnd,this);
 
-        game_play.instance.display_change_event.on(game_play.DisplayChangeEventType.Position,function(pos){this.node.position=pos;},this);
-        game_play.instance.display_change_event.on(game_play.DisplayChangeEventType.Scale,function(scale){this.node.scale=scale;},this);
+        game_play.instance.display_change_event.on(game_play.DisplayChangeEventType.Position,reposition,this);
+        game_play.instance.display_change_event.on(game_play.DisplayChangeEventType.Scale,rescale,this);
     }
     onDestroy(): void {
-        game_play.instance.display_change_event.off(game_play.DisplayChangeEventType.Position,function(pos){this.node.position=pos;},this);
-        game_play.instance.display_change_event.off(game_play.DisplayChangeEventType.Scale,function(scale){this.node.scale=scale;},this);
+        this.node.off(Input.EventType.TOUCH_START,this.onTouch,this);
+        this.node.off(Input.EventType.TOUCH_END,this.onTouchEnd,this);
+        this.node.off(Input.EventType.TOUCH_CANCEL,this.onTouchEnd,this);
+        game_play.instance.display_change_event.off(game_play.DisplayChangeEventType.Position,reposition,this);
+        game_play.instance.display_change_event.off(game_play.DisplayChangeEventType.Scale,rescale,this);
     }
     clean():void{
         for(let node of this.map.values()){
@@ -92,6 +102,22 @@ export class tile_manager extends Component {
     onTouch(e){
         console.log(`M T ${this.convertCoordFromTouchPosition(e.getUILocation())}`);
     }
+    onTouchEnd(e:EventTouch){
+        let p=this.convertCoordFromTouchPosition(e.getUILocation());
+        if(p.x>=0&&p.y>=0&&p.x<game_play.instance.level.size.w&&p.y<game_play.instance.level.size.h){
+            console.log(`EndAt ${this.convertCoordFromTouchPosition(e.getUILocation())}`);
+            if(card_manager.instance.prefab){
+                let prefab=card_manager.instance.prefab;
+                card_manager.instance.prefab=null;
+                let t=instantiate(prefab);
+                t.getComponent(tower_component).setPos(p);
+                placement_manager.instance.node.addChild(t);
+            }
+        }
+        
+    }
+
+    static get instance(){return find('Canvas/PlayGround/TileManager').getComponent(tile_manager);}
 }
 
 

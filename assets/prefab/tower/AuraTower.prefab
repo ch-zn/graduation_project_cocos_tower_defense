@@ -178,14 +178,14 @@
     "lifeVar": 0.5,
     "angle": 0,
     "angleVar": 360,
-    "startSize": 0.5,
+    "startSize": 0.1,
     "startSizeVar": 0,
-    "endSize": 0.5,
+    "endSize": 0.1,
     "endSizeVar": 0,
-    "startSpin": -47.369998931884766,
+    "startSpin": 0,
     "startSpinVar": 0,
-    "endSpin": -47.369998931884766,
-    "endSpinVar": -142.11000061035156,
+    "endSpin": 0,
+    "endSpinVar": 0,
     "sourcePos": {
       "__type__": "cc.Vec2",
       "x": 0,
@@ -225,7 +225,7 @@
       "__expectedType__": "cc.ParticleAsset"
     },
     "_spriteFrame": {
-      "__uuid__": "24c419ea-63a8-4ea1-a9d0-7fc469489bbc@f9941",
+      "__uuid__": "e9697a2c-fcf8-4233-b3c0-cdf9c0a71ab3@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_totalParticles": 200,
@@ -327,10 +327,7 @@
       "b": 255,
       "a": 255
     },
-    "_spriteFrame": {
-      "__uuid__": "57520716-48c8-4a19-8acf-41c9f8777fb0@f9941",
-      "__expectedType__": "cc.SpriteFrame"
-    },
+    "_spriteFrame": null,
     "_type": 0,
     "_fillType": 0,
     "_sizeMode": 0,
@@ -365,7 +362,7 @@
     "bundle": {
       "__id__": 14
     },
-    "default": "idle",
+    "_default": "idle",
     "_id": ""
   },
   {
@@ -396,7 +393,9 @@
       "__id__": 16
     },
     "playOnLoad": false,
-    "_clips": [],
+    "_clips": [
+      null
+    ],
     "_defaultClip": null,
     "_id": ""
   },
@@ -416,7 +415,7 @@
     "__prefab": {
       "__id__": 18
     },
-    "attack_radius": 3,
+    "attack_radius": 1.414,
     "ATK": 10,
     "attack_type": "laser",
     "_id": ""

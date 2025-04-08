@@ -27,9 +27,9 @@ export class tile extends Component {
     }
 
     onDestroy(): void {
-        // this.node.off(Input.EventType.TOUCH_START,this.onTouchStart,this);
-        // this.node.off(Input.EventType.TOUCH_END,this.onTouchEnd,this);
-        // this.node.off(Input.EventType.TOUCH_CANCEL,this.onTouchCancel,this);
+        this.node.off(Input.EventType.TOUCH_START,this.onTouchStart,this);
+        this.node.off(Input.EventType.TOUCH_END,this.onTouchEnd,this);
+        this.node.off(Input.EventType.TOUCH_CANCEL,this.onTouchCancel,this);
     }
 
     start() {

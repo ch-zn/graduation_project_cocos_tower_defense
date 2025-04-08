@@ -1,5 +1,5 @@
 import { _decorator, animation, AnimationClip, AnimationComponent, CCString, Component, JsonAsset, Node, Rect, Sprite, SpriteFrame, Texture2D, Vec2 } from 'cc';
-const { ccclass, property } = _decorator;
+const { ccclass, property ,executeInEditMode} = _decorator;
 
 @ccclass("AsepriteBundleData")
 export class AsepriteBundleData{
@@ -16,11 +16,20 @@ type loaded_data_t={
 
 
 @ccclass('aseprite_bundle')
+@executeInEditMode(true)
 export class aseprite_bundle extends Component {
     @property({type:AsepriteBundleData})
     public bundle:AsepriteBundleData=new AsepriteBundleData();
     @property(CCString)
-    public default:string="";
+    public _default:string="";
+
+    @property(CCString)
+    public get default(){return this._default;}
+
+    public set default(str:string){
+        this._default=str;
+        this.setFrame(str);
+    }
     
     static loadedFrame:Map<Texture2D,loaded_data_t>=new Map();
     frames:loaded_data_t;
@@ -41,12 +50,22 @@ export class aseprite_bundle extends Component {
 
     public setFrame(name:string):void{
         let data=this.frames[name];
+        if(!data)return;
         // console.log(name,data.type)
         if(data.type==="frame"){
             this.node.getComponent(Sprite).spriteFrame=data.value;
             // console.log(name,data.type);
         }
         else this.node.getComponent(AnimationComponent).play(name);
+    }
+
+    getFrame(name:string):SpriteFrame{
+        let data=this.frames[name];
+        if(!data)return null;
+        if(data.type==="frame"){
+            return data.value;
+        }
+        else return null;
     }
 
 

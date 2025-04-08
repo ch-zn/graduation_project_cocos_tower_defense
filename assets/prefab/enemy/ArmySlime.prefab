@@ -1,7 +1,7 @@
 [
   {
     "__type__": "cc.Prefab",
-    "_name": "NormalEnemy",
+    "_name": "ArmySlime",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_native": "",
@@ -13,7 +13,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "NormalEnemy",
+    "_name": "ArmySlime",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": null,
@@ -762,9 +762,9 @@
     "__prefab": {
       "__id__": 35
     },
-    "speed": 0.5,
+    "speed": 1,
     "maxHP": 100,
-    "maxDefense": 0,
+    "maxDefense": 100,
     "_id": ""
   },
   {
@@ -786,7 +786,7 @@
     "bundle": {
       "__id__": 38
     },
-    "default": "move",
+    "_default": "slime",
     "_id": ""
   },
   {
@@ -796,11 +796,11 @@
   {
     "__type__": "AsepriteBundleData",
     "image": {
-      "__uuid__": "79caa78a-cfec-4aca-b846-1b0706e1f973@6c48a",
+      "__uuid__": "8c3c2f32-5690-45e8-b22b-36a575917de9@6c48a",
       "__expectedType__": "cc.Texture2D"
     },
     "json": {
-      "__uuid__": "33abe0e3-af8d-46f7-88cb-530ff4b09c39",
+      "__uuid__": "15680abb-ad0c-4775-92c8-665528eadc65",
       "__expectedType__": "cc.JsonAsset"
     }
   },
@@ -817,7 +817,13 @@
       "__id__": 40
     },
     "playOnLoad": false,
-    "_clips": [],
+    "_clips": [
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
     "_defaultClip": null,
     "_id": ""
   },
@@ -834,6 +840,7 @@
       "__id__": 0
     },
     "fileId": "27vxuR07FPY4SgNZG2mwWe",
+    "instance": null,
     "targetOverrides": null
   }
 ]

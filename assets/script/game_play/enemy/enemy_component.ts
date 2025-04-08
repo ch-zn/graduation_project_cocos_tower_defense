@@ -1,6 +1,6 @@
 import { _decorator, CCFloat, Component, find, Node, ProgressBar, sp, Vec3 } from 'cc';
 import { level_path, level_path_position, LevelUtil, point } from '../level_info';
-import { game_play } from '../game_play';
+import { game_play, pause_mixin } from '../game_play';
 import { position } from '../type';
 import { enemy_manager } from '../enemy_manager';
 import { tower_component } from '../placement/tower_component';
@@ -9,8 +9,8 @@ import { named_enemy_buff } from './named_enemy_buff';
 import { enemy_buff } from './enemy_buff';
 const { ccclass, property } = _decorator;
 
-@ccclass('enemy_component')
-export class enemy_component extends Component {
+
+class _enemy_component extends Component {
 
     path_id:number=0;         //所处路径
     walked_distance:number=0; //已经走了的距离
@@ -41,12 +41,12 @@ export class enemy_component extends Component {
                 }
                 oldb.end();
                 this.buff[i]=b;
-                b._buff_apply(this);
+                b._buff_apply(this as any as enemy_component);
                 return;
             }
         }
         this.buff.push(b);
-        b._buff_apply(this);
+        b._buff_apply(this as any as enemy_component);
     }
     addBuffByName(name:string,time:number,level:number){this.addBuff(named_enemy_buff.byName(name,time,level));}
     haveBuff(b:string|typeof enemy_buff){
@@ -95,7 +95,7 @@ export class enemy_component extends Component {
     }
     attack(damages:{type:string,hp:number}[],attacker:tower_component){this.onAttack(damages,attacker);}
     death(){
-        enemy_manager.instance.all_enemys.delete(this);
+        enemy_manager.instance.all_enemys.delete(this as any as enemy_component);
         this.onDeath();
         this.node.destroy();
     }
@@ -107,7 +107,7 @@ export class enemy_component extends Component {
     }
 
     start() {
-        enemy_manager.instance.all_enemys.add(this);
+        enemy_manager.instance.all_enemys.add(this as any as enemy_component);
     }
 
     prebuff(deltaTime:number){}
@@ -141,4 +141,6 @@ export class enemy_component extends Component {
     }
 }
 
-
+@ccclass('enemy_component')
+export class enemy_component extends pause_mixin(_enemy_component){
+}
