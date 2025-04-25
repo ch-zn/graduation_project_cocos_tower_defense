@@ -31,6 +31,14 @@ export type level_tile_type=
     |"DX"// ┻
     |"X" // ╋
 ;
+export let level_tile_path_types:level_tile_type[]=["L","R","U","D","C","LR","UD","RD","LD","UR","UL","UX","LX","RX","DX","X"];
+export let level_tile_not_path_types:level_tile_type[]=["O"];
+export let level_tile_path_types_connected:level_tile_type[][]=[
+    ["C"],
+    ["L","R","U","D"],
+    ["LR","UD","RD","LD","UR","UL"],
+    ["UX","LX","RX","DX","X"]
+];
 export type level_tile_data={
     type:level_tile_type;
     theme?:string;

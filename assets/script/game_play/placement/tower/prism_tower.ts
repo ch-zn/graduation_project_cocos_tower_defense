@@ -1,11 +1,10 @@
 import { _decorator, Component, math, Node, ParticleSystem2D, UIOpacity, Vec3 } from 'cc';
-import { tower_attack_single_laser_mixin, tower_component, tower_range_round_mixin } from '../tower_component';
+import { tower_can_place_on_mixin,tower_attack_single_laser_mixin, tower_component, tower_range_round_mixin } from '../tower_component';
+import { level_tile_not_path_types } from '../../level_info';
 const { ccclass, property } = _decorator;
 
 @ccclass('prism_tower')
-export class prism_tower extends tower_attack_single_laser_mixin(tower_range_round_mixin(tower_component)) {
-    protected onLoad(): void {
-        }
+export class prism_tower extends tower_can_place_on_mixin(level_tile_not_path_types,"deny",tower_attack_single_laser_mixin(tower_range_round_mixin(tower_component))) {
         start() {
             super.start();
         }

@@ -8,11 +8,11 @@ import { tower_component } from './placement/tower_component';
 import { placement_manager } from './placement_manager';
 const { ccclass, property } = _decorator;
 
-export class TileMap{
-    size:{w:number,h:number};
-    ground:Array<Array<string>>;
-    item:Array<Array<string | null>>;
-}
+// export class TileMap{
+//     size:{w:number,h:number};
+//     ground:Array<Array<string>>;
+//     item:Array<Array<string | null>>;
+// }
 
 function reposition(pos){this.node.position=pos;}
 function rescale(scale){this.node.scale=scale;}
@@ -43,7 +43,12 @@ export class tile_manager extends Component {
         }
         this.map.clear();
     }
+    /**
+     * 初始化地图
+     * 由game_play调用
+     */
     loadMap(t:level_data):void{
+        // console.log(t);
         for(let i=0;i<t.size.w;i++)
             for(let j=0;j<t.size.h;j++){
                 let node=instantiate(this.prefab);
@@ -82,11 +87,13 @@ export class tile_manager extends Component {
     }
 
 
-
+    tileAt(x:number,y:number){
+        return this.map.get(new Vec2(x,y));
+    }
 
 
     start() {
-        this.loadMap(game_play.instance.level)
+        
     }
 
     update(deltaTime: number) {
@@ -108,10 +115,8 @@ export class tile_manager extends Component {
             console.log(`EndAt ${this.convertCoordFromTouchPosition(e.getUILocation())}`);
             if(card_manager.instance.prefab){
                 let prefab=card_manager.instance.prefab;
+                placement_manager.instance.tryPlaceAt(prefab,p.x,p.y);
                 card_manager.instance.prefab=null;
-                let t=instantiate(prefab);
-                t.getComponent(tower_component).setPos(p);
-                placement_manager.instance.node.addChild(t);
             }
         }
         

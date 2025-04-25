@@ -44,8 +44,8 @@ export abstract class enemy_buff {
 export class enemy_buff_speed extends enemy_buff{
     speed:number;
     _old_speed:number;
-    static readonly buff_name="speed";
-    readonly buff_name="speed";
+    static readonly buff_name:string="speed";
+    readonly buff_name:string="speed";
     constructor(time:number,speed:number){
         super(time);
         this.speed=speed;
@@ -56,5 +56,22 @@ export class enemy_buff_speed extends enemy_buff{
     }
     post_update(): void {
         this.enemy.speed=this._old_speed;
+    }
+}
+
+export class enemy_buff_damage extends enemy_buff{
+    damage:number;
+    damage_type:string;
+    static readonly buff_name:string="damage";
+    readonly buff_name:string="damage";
+    constructor(time:number,damage:number,damage_type:string){
+        super(time);
+        this.damage=damage;
+        this.damage_type=damage_type;
+    }
+    update(deltaTime: number): void {
+        this.enemy.attack([{type:this.damage_type,hp:this.damage*deltaTime}]);
+    }
+    post_update(): void {
     }
 }

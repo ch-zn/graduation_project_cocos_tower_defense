@@ -1,11 +1,14 @@
 import { _decorator, Component, find, Node,EventTarget } from 'cc';
 import { level_data, LevelUtil } from './level_info';
 import { AbstractConstructor } from '../lib/mixins';
+import { tile_manager } from './tile_manager';
+import { placement_manager } from './placement_manager';
 const { ccclass, property } = _decorator;
 
 @ccclass('game_play')
 export class game_play extends Component {
     level:level_data=test_level_data;
+    chosen_tower:string[]=test_chosen_tower;
     display_change_event=new EventTarget();
     static DisplayChangeEventType={Scale:"scale",Position:"pos"};
     _pause:boolean;
@@ -27,7 +30,8 @@ export class game_play extends Component {
 
 
     start() {
-
+        tile_manager.instance.loadMap(this.level)  //等其他组件完成初始化
+        placement_manager.instance.loadMap(this.level);
     }
 
     update(deltaTime: number) {
@@ -68,6 +72,13 @@ let test_level_data:level_data={
 };
 LevelUtil.level_data.fill_tile_by_path(test_level_data);
 
+let test_chosen_tower=[
+    "AuroTower",
+    "PrismTower",
+    "IronWeb",
+    "Belt"
+]
+
 
 export function pause_mixin<T extends AbstractConstructor<any>>(Base:T) {
     abstract class aclass extends Base {
@@ -79,6 +90,7 @@ export function pause_mixin<T extends AbstractConstructor<any>>(Base:T) {
         game_play.instance.pause_event.on(game_play.PauseEventType.Resume,this._on_game_resume,this);
     }
     onDestroy(): void {
+        super.onDestroy();
         game_play.instance.pause_event.off(game_play.PauseEventType.Pause,this._on_game_pause,this);
         game_play.instance.pause_event.off(game_play.PauseEventType.Resume,this._on_game_resume,this);
     }

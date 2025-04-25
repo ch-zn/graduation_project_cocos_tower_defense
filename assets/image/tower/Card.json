@@ -1,6 +1,6 @@
 { "frames": [
    {
-    "filename": " 0",
+    "filename": "card 0",
     "frame": { "x": 1, "y": 1, "w": 64, "h": 64 },
     "rotated": false,
     "trimmed": false,
@@ -44,6 +44,7 @@
   "size": { "w": 132, "h": 132 },
   "scale": "1",
   "frameTags": [
+   { "name": "card", "from": 0, "to": 0, "direction": "forward", "color": "#000000ff" },
    { "name": "laser", "from": 1, "to": 1, "direction": "forward", "color": "#000000ff" },
    { "name": "Prism", "from": 2, "to": 2, "direction": "forward", "color": "#000000ff" },
    { "name": "Auro", "from": 3, "to": 3, "direction": "forward", "color": "#000000ff" }

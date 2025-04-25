@@ -88,12 +88,12 @@ class _enemy_component extends Component {
     }
 
     onDeath(){}
-    onAttack(damages:{type:string,hp:number}[],attacker:tower_component){
+    onAttack(damages:{type:string,hp:number}[],attacker?:tower_component){
         let hp=0;
         for(let d of damages)hp+=d.hp;
         this._attacked(hp);
     }
-    attack(damages:{type:string,hp:number}[],attacker:tower_component){this.onAttack(damages,attacker);}
+    attack(damages:{type:string,hp:number}[],attacker?:tower_component){this.onAttack(damages,attacker);}
     death(){
         enemy_manager.instance.all_enemys.delete(this as any as enemy_component);
         this.onDeath();
@@ -125,7 +125,7 @@ class _enemy_component extends Component {
         this.prebuff(deltaTime);
         this.buff=this.buff.filter((x)=>!x.lapse());
         for(let i=0;i<this.buff.length;i++)
-            this.buff[i].update(deltaTime);
+            this.buff[i]._buff_update(deltaTime);
         this.run(deltaTime);
         for(let i=this.buff.length-1;i>=0;i--)
             this.buff[i].post_update();
